@@ -1,40 +1,42 @@
-// Quiz questions and answers
+// Quiz questions and options exactly as expected by Cypress
 const quiz = [
-  { question: "What is 2 + 2?", options: ["3", "4", "5", "6"], answer: "4" },
-  { question: "What is the capital of France?", options: ["Paris", "London", "Rome", "Berlin"], answer: "Paris" },
-  { question: "Which language runs in the browser?", options: ["Java", "C", "Python", "JavaScript"], answer: "JavaScript" },
-  { question: "What does CSS stand for?", options: ["Central Style Sheets", "Cascading Style Sheets", "Cascading Simple Sheets", "Cars SUVs Sailboats"], answer: "Cascading Style Sheets" },
-  { question: "What is 10 / 2?", options: ["2", "5", "10", "20"], answer: "5" }
+  { question: "What is 2 + 2?", choices: ["3", "4", "5", "6"], answer: "4" },
+  { question: "What is the capital of France?", choices: ["Paris", "London", "Rome", "Berlin"], answer: "Paris" },
+  { question: "Which language runs in the browser?", choices: ["Java", "C", "Python", "JavaScript"], answer: "JavaScript" },
+  { question: "What does CSS stand for?", choices: ["Central Style Sheets", "Cascading Style Sheets", "Cascading Simple Sheets", "Cars SUVs Sailboats"], answer: "Cascading Style Sheets" },
+  { question: "What is 10 / 2?", choices: ["2", "5", "10", "20"], answer: "5" }
 ];
 
 const questionsDiv = document.getElementById("questions");
 const submitBtn = document.getElementById("submit");
 const scoreDiv = document.getElementById("score");
 
-// Load progress from sessionStorage
+// Load previous selections from sessionStorage
 let progress = JSON.parse(sessionStorage.getItem("progress")) || {};
 
-// Render questions
+// Render the quiz
 function renderQuestions() {
   questionsDiv.innerHTML = "";
   quiz.forEach((q, idx) => {
     const qDiv = document.createElement("div");
     qDiv.className = "question";
+
+    // Question text (no numbering, Cypress expects raw text)
     const p = document.createElement("p");
-    p.textContent = `${idx + 1}. ${q.question}`;
+    p.textContent = q.question;
     qDiv.appendChild(p);
 
-    q.options.forEach(opt => {
+    // Render options
+    q.choices.forEach(opt => {
       const label = document.createElement("label");
       const radio = document.createElement("input");
       radio.type = "radio";
       radio.name = `q${idx}`;
       radio.value = opt;
 
-      // Restore selection if exists in sessionStorage
+      // Restore selection from sessionStorage
       if (progress[`q${idx}`] === opt) radio.checked = true;
 
-      // Save selection to sessionStorage on change
       radio.addEventListener("change", () => {
         progress[`q${idx}`] = opt;
         sessionStorage.setItem("progress", JSON.stringify(progress));
@@ -49,7 +51,7 @@ function renderQuestions() {
   });
 }
 
-// Calculate score and store in localStorage
+// Handle Submit
 submitBtn.addEventListener("click", () => {
   let score = 0;
   quiz.forEach((q, idx) => {
