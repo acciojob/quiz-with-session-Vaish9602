@@ -1,17 +1,22 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz with Session Storage</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    div.question { margin-bottom: 15px; }
+    label { margin-right: 10px; }
+    #score { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
 
-<html>
-  <head>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+  <h1>Quiz</h1>
+  <div id="questions"></div>
+  <button id="submit">Submit</button>
+  <div id="score"></div>
 
-  <body>
-    <!-- do not change this code -->
-    <h1>Quiz</h1>
-    <div id="questions"></div>
-    <button id="submit">Submit</button>
-    <div id="score"></div>
-
-    <script type="text/javascript" src="./script.js"></script>
-  </body>
+  <script src="./script.js"></script>
+</body>
 </html>
